@@ -68,8 +68,9 @@ print ' final size is %d'%m
 cv2.drawContours(mask, cont_copy,-1,(160,255,255),-1)
 cv2.imshow('mask1',mask)
 
+processed_crop_point = point_process(crop_point,100)
 
-drawPoly(imgfile,crop_point,r'E:\bot_GoodsShelves\data\test_out\img_crop.jpg')
+drawPoly(imgfile,processed_crop_point,r'E:\bot_GoodsShelves\data\test_out\img_crop.jpg')
 # Extract out the object and place into output image，设置底色为黑色。
 out = np.zeros_like(img)
 out[mask == 255] = img[mask == 255]

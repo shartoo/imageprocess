@@ -145,12 +145,46 @@ def drawPoly(imgfile,polygon,target_file):
     newIm.save(target_file)
     print 'file  %s  crop '%target_file
 
-def point_process(mylist):
+def point_process(mylist,size):
     '''
         对列表中的坐标点做处理，只保留一个坐标列表中x轴或y轴的 20分位点
     :param mylist:
     :return:
     '''
+    resultlist =[]
+    minX =0
+    maxX =0
+    minY =0
+    maxY =0
+    # 第一次遍历 找到坐标列表中极值的x和y
+    for xy in mylist:
+        x = xy[0]
+        y = xy[1]
+        if x>maxX:
+            maxX =x
+        if x<minX:
+            minX =x
+        if y > maxY:
+            maxY = y
+        if y < minY:
+            minY = y
+
+    xrange = [minX+(i*(maxX-minX))/size for i in range(size)]
+    yrange = [minY + (i * (maxY - minY)) / size for i in range(size)]
+    shareX = float((maxX-minX)/float(size))
+    shareY = float((maxY - minY)/float(size))
+
+    for xy in mylist:
+        x = xy[0]
+        y = xy[1]
+        x = xrange[int((x-minX)/shareX)-1]
+        print (int((y - minY) / shareY)-1)
+        x = yrange[int((y - minY) / shareY)-1]
+        if  [x,y] not in resultlist:
+            resultlist.append([x,y])
+    print "before process list size is %d,after is %d"%(len(mylist),len(resultlist))
+    return resultlist
+
 
 
 def point_list_sort(mylist):
